@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class LoginComponent {
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
   isInvalid(field: string): boolean {
     const ctrl = this.form.get(field);
@@ -37,6 +37,7 @@ export class LoginComponent {
 
     const { email, password } = this.form.value;
     this.auth.login(email!, password!).subscribe({
+      next: () => this.router.navigate(['/produits']),
       error: (err) => {
         this.loading.set(false);
         this.error.set(err.error?.message ?? 'Identifiants incorrects');

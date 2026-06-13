@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 function passwordMatchValidator(ctrl: AbstractControl): ValidationErrors | null {
@@ -29,7 +29,7 @@ export class RegisterComponent {
     confirmPassword: ['', Validators.required]
   }, { validators: passwordMatchValidator });
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
   isInvalid(field: string): boolean {
     const ctrl = this.form.get(field);
@@ -51,6 +51,7 @@ export class RegisterComponent {
     const { firstName, lastName, email, password } = this.form.value;
     this.auth.register({ firstName: firstName!, lastName: lastName!, email: email!, password: password! })
       .subscribe({
+        next: () => this.router.navigate(['/produits']),
         error: (err) => {
           this.loading.set(false);
           this.error.set(err.error?.message ?? 'Erreur lors de l\'inscription');
