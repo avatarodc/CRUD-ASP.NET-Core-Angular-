@@ -1,12 +1,37 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" routerLink="/">Gestion des Produits</a>
-    <div class="navbar-nav ms-3">
-      <a class="nav-link" routerLink="/produits" routerLinkActive="active">
+<div class="shell">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-glow"></div>
+
+    <div class="brand">
+      <div class="brand-mark">GP</div>
+      <div class="brand-info">
+        <span class="brand-name">GestionProduits</span>
+        <span class="brand-sub">v1.0</span>
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <span class="nav-label">Menu</span>
+      <a routerLink="/produits" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path d="M3 6h18M3 12h18M3 18h18"/>
+          </svg>
+        </span>
         Produits
       </a>
     </div>
-  </div>
-</nav>
 
-<router-outlet></router-outlet>
+    <div class="sidebar-footer">
+      <div class="footer-tag">ASP.NET Core · Angular</div>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

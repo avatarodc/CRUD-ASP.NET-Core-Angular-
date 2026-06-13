@@ -1,82 +1,103 @@
-<div class="container mt-4">
-  <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-      <div class="card">
-        <div class="card-header bg-dark text-white">
-          <h5 class="mb-0">{{ isEditMode ? 'Modifier le Produit' : 'Nouveau Produit' }}</h5>
-        </div>
-        <div class="card-body">
+<div class="page">
 
-          <div *ngIf="errorMessage" class="alert alert-danger">
-            {{ errorMessage }}
-          </div>
-
-          <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Nom <span class="text-danger">*</span></label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="nom"
-                placeholder="Nom du produit"
-                [class.is-invalid]="form.get('nom')?.invalid && form.get('nom')?.touched">
-              <div class="invalid-feedback">
-                Le nom est requis (maximum 100 caractères).
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Description</label>
-              <textarea
-                class="form-control"
-                formControlName="description"
-                rows="3"
-                placeholder="Description du produit"></textarea>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Prix <span class="text-danger">*</span></label>
-              <input
-                type="number"
-                class="form-control"
-                formControlName="prix"
-                step="0.01"
-                min="0"
-                placeholder="Prix en FCFA"
-                [class.is-invalid]="form.get('prix')?.invalid && form.get('prix')?.touched">
-              <div class="invalid-feedback">
-                Le prix doit être supérieur à 0.
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <label class="form-label fw-semibold">Quantité <span class="text-danger">*</span></label>
-              <input
-                type="number"
-                class="form-control"
-                formControlName="quantite"
-                min="0"
-                placeholder="Quantité en stock"
-                [class.is-invalid]="form.get('quantite')?.invalid && form.get('quantite')?.touched">
-              <div class="invalid-feedback">
-                La quantité ne peut pas être négative.
-              </div>
-            </div>
-
-            <div class="d-flex gap-2">
-              <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isLoading">
-                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1"></span>
-                {{ isLoading ? 'Enregistrement...' : (isEditMode ? 'Modifier' : 'Créer') }}
-              </button>
-              <button type="button" class="btn btn-secondary" (click)="onCancel()">
-                Annuler
-              </button>
-            </div>
-
-          </form>
-        </div>
-      </div>
+  <!-- Header -->
+  <div class="page-header">
+    <button class="back-btn" (click)="onCancel()">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Retour
+    </button>
+    <div class="page-title-block">
+      <p class="page-eyebrow">{{ isEditMode ? 'Modification' : 'Création' }}</p>
+      <h1 class="page-title">{{ isEditMode ? 'Modifier le produit' : 'Nouveau produit' }}</h1>
     </div>
+  </div>
+
+  <!-- Form card -->
+  <div class="form-card">
+
+    <div *ngIf="errorMessage" class="alert alert-error">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/>
+      </svg>
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <div class="form-grid">
+
+        <div class="field full">
+          <label class="field-label">Nom du produit <span class="req">*</span></label>
+          <input
+            type="text"
+            class="field-input"
+            formControlName="nom"
+            placeholder="Ex : Ordinateur portable Dell"
+            [class.invalid]="form.get('nom')?.invalid && form.get('nom')?.touched">
+          <p class="field-error" *ngIf="form.get('nom')?.invalid && form.get('nom')?.touched">
+            Le nom est requis (max 100 caractères)
+          </p>
+        </div>
+
+        <div class="field full">
+          <label class="field-label">Description</label>
+          <textarea
+            class="field-input field-textarea"
+            formControlName="description"
+            placeholder="Décrivez le produit..."
+            rows="3"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Prix (FCFA) <span class="req">*</span></label>
+          <div class="input-wrap">
+            <span class="input-prefix">FCFA</span>
+            <input
+              type="number"
+              class="field-input with-prefix"
+              formControlName="prix"
+              step="0.01"
+              min="0"
+              placeholder="0"
+              [class.invalid]="form.get('prix')?.invalid && form.get('prix')?.touched">
+          </div>
+          <p class="field-error" *ngIf="form.get('prix')?.invalid && form.get('prix')?.touched">
+            Le prix doit être supérieur à 0
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Quantité en stock <span class="req">*</span></label>
+          <input
+            type="number"
+            class="field-input"
+            formControlName="quantite"
+            min="0"
+            placeholder="0"
+            [class.invalid]="form.get('quantite')?.invalid && form.get('quantite')?.touched">
+          <p class="field-error" *ngIf="form.get('quantite')?.invalid && form.get('quantite')?.touched">
+            La quantité ne peut pas être négative
+          </p>
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="onCancel()">
+          Annuler
+        </button>
+        <button type="submit" class="btn-submit" [disabled]="form.invalid || isLoading">
+          <span class="spinner" *ngIf="isLoading"></span>
+          <svg *ngIf="!isLoading" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path *ngIf="!isEditMode" d="M12 5v14M5 12h14"/>
+            <path *ngIf="isEditMode" d="M20 6L9 17l-5-5"/>
+          </svg>
+          {{ isLoading ? 'Enregistrement...' : (isEditMode ? 'Enregistrer' : 'Créer le produit') }}
+        </button>
+      </div>
+
+    </form>
   </div>
 </div>
