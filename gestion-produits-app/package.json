@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "generate:api:watch": "nodemon --watch src/app/api --exec \"npm run generate:api\""
+    "generate:api": "ng-openapi-gen --config ng-openapi-gen.json",
+    "generate:api:watch": "nodemon --watch ../GestionProduits.Api/Controllers --ext cs --exec \"npm run generate:api\""
   },
   "private": true,
   "dependencies": {
@@ -34,6 +35,8 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.4.2"
+    "typescript": "~5.4.2",
+    "ng-openapi-gen": "^0.53.0",
+    "nodemon": "^3.1.0"
   }
 }
