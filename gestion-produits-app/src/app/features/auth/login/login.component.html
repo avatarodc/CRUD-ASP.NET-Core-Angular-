@@ -1,0 +1,79 @@
+<div class="auth-page">
+  <div class="auth-card">
+
+    <div class="auth-brand">
+      <div class="brand-mark">GP</div>
+      <div class="brand-info">
+        <span class="brand-name">GestionProduits</span>
+        <span class="brand-sub">Espace sécurisé</span>
+      </div>
+    </div>
+
+    <h1 class="auth-title">Connexion</h1>
+    <p class="auth-subtitle">Bienvenue ! Connectez-vous pour accéder à votre espace.</p>
+
+    @if (error()) {
+      <div class="alert alert-error">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/>
+        </svg>
+        {{ error() }}
+      </div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+
+      <div class="field">
+        <label class="field-label">Adresse email</label>
+        <input type="email" class="field-input" formControlName="email"
+               placeholder="vous@exemple.com"
+               [class.invalid]="isInvalid('email')">
+        @if (isInvalid('email')) {
+          <span class="field-error">Email invalide</span>
+        }
+      </div>
+
+      <div class="field">
+        <label class="field-label">Mot de passe</label>
+        <div class="input-toggle">
+          <input [type]="showPwd() ? 'text' : 'password'"
+                 class="field-input" formControlName="password"
+                 placeholder="••••••••"
+                 [class.invalid]="isInvalid('password')">
+          <button type="button" class="toggle-btn" (click)="showPwd.set(!showPwd())">
+            @if (showPwd()) {
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            } @else {
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            }
+          </button>
+        </div>
+        @if (isInvalid('password')) {
+          <span class="field-error">Mot de passe requis (min. 6 caractères)</span>
+        }
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="loading()">
+        @if (loading()) {
+          <span class="spinner"></span>
+          Connexion en cours…
+        } @else {
+          Se connecter
+        }
+      </button>
+
+    </form>
+
+    <p class="auth-footer">
+      Pas encore de compte ?
+      <a routerLink="/auth/register" class="auth-link">Créer un compte</a>
+    </p>
+
+  </div>
+</div>
